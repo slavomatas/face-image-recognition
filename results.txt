@@ -1,0 +1,225 @@
+CNN
+
+
+Transfer Learning - without augmentation
+
+Xception - two layers - Test accuracy: 86.2440%
+Xception - one layer - Test accuracy: 85.5263%
+
+ResNet50 - two layers - Test accuracy: 83.4928%
+ResNet50 - one layer - Test accuracy: 82.6555%
+
+VGG19 - one layer - Test accuracy: 64.9522%
+
+#####################################################
+#Transfer Learning - 2 dense layers
+
+=======================================================
+model.add(Dense(1024, activation='relu',
+               kernel_initializer=init,
+               bias_initializer='zeros'))
+model.add(BatchNormalization())
+model.add(Dropout(0.5))
+
+adam = Adam(lr=0.001, beta_1=0.9, beta_2=0.999, epsilon=None, decay=0.0, amsgrad=False)
+
+history = top_model.fit(training_features, train_targets,
+                        validation_data=(validation_features, valid_targets),
+                        epochs=430, batch_size=20, callbacks=[checkpointer], verbose=1)
+
+==>[0.934425230801961, 0.8552631578947368]
+
+=======================================================
+
+model.add(Dense(512, activation='relu',
+                kernel_initializer=init,
+                bias_initializer='zeros'))
+model.add(BatchNormalization())
+model.add(Dropout(0.5))
+
+adam = Adam(lr=0.001, beta_1=0.9, beta_2=0.999, epsilon=None, decay=0.0, amsgrad=False)
+
+history = top_model.fit(training_features, train_targets,
+                        validation_data=(validation_features, valid_targets),
+                        epochs=430, batch_size=20, callbacks=[checkpointer], verbose=1)
+
+==>[0.8000688689747496, 0.8600478468899522]
+
+=======================================================
+
+model.add(Dense(512, activation='relu',
+                kernel_initializer=init,
+                bias_initializer='zeros'))
+model.add(BatchNormalization())
+model.add(Dropout(0.5))
+
+model.compile(loss='categorical_crossentropy', optimizer='rmsprop', metrics=['accuracy'])
+
+history = top_model.fit(training_features, train_targets,
+                        validation_data=(validation_features, valid_targets),
+                        epochs=430, batch_size=20, callbacks=[checkpointer], verbose=1)
+
+===>[0.7319768681480554, 0.861244019138756]
+=======================================================
+
+model.compile(loss='categorical_crossentropy', optimizer='rmsprop', metrics=['accuracy'])
+
+history = top_model.fit(training_features, train_targets,
+                        validation_data=(validation_features, valid_targets),
+                        epochs=500, batch_size=20, callbacks=[checkpointer], verbose=1)
+
+==>[0.772216094167609, 0.861244019138756]
+
+######################################
+# CNN from scratch
+
+2 layers
+
+model.add(Dense(512, activation='relu',
+                kernel_initializer=init,
+                bias_initializer='zeros'))
+model.add(BatchNormalization())
+model.add(Dropout(0.5))
+
+##########################################
+Transfer Learning
+
+Layer (type)                 Output Shape              Param #
+=================================================================
+global_average_pooling2d_1 ( (None, 2048)              0
+_________________________________________________________________
+dropout_1 (Dropout)          (None, 2048)              0
+_________________________________________________________________
+dense_1 (Dense)              (None, 512)               1049088
+_________________________________________________________________
+batch_normalization_1 (Batch (None, 512)               2048
+_________________________________________________________________
+dropout_2 (Dropout)          (None, 512)               0
+_________________________________________________________________
+dense_2 (Dense)              (None, 512)               262656
+_________________________________________________________________
+batch_normalization_2 (Batch (None, 512)               2048
+_________________________________________________________________
+dropout_3 (Dropout)          (None, 512)               0
+_________________________________________________________________
+dense_3 (Dense)              (None, 133)               68229
+=================================================================
+Total params: 1,384,069
+Trainable params: 1,382,021
+Non-trainable params: 2,048
+_________________________________________________________________
+2018-02-12 21:24:26.955967: I tensorflow/core/platform/cpu_feature_guard.cc:137] Your CPU supports instructions that this TensorFlow binary was not compiled to use: SSE4.1 SSE4.2 AVX AVX2 FMA
+2018-02-12 21:24:27.094697: I tensorflow/stream_executor/cuda/cuda_gpu_executor.cc:892] successful NUMA node read from SysFS had negative value (-1), but there must be at least one NUMA node, so returning NUMA node zero
+2018-02-12 21:24:27.095063: I tensorflow/core/common_runtime/gpu/gpu_device.cc:1030] Found device 0 with properties:
+name: GeForce GTX 1080 Ti major: 6 minor: 1 memoryClockRate(GHz): 1.683
+pciBusID: 0000:24:00.0
+totalMemory: 10.91GiB freeMemory: 9.70GiB
+2018-02-12 21:24:27.095078: I tensorflow/core/common_runtime/gpu/gpu_device.cc:1120] Creating TensorFlow device (/device:GPU:0) -> (device: 0, name: GeForce GTX 1080 Ti, pci bus id: 0000:24:00.0, compute capability: 6.1)
+
+ 32/836 [>.............................] - ETA: 3s
+320/836 [==========>...................] - ETA: 0s
+608/836 [====================>.........] - ETA: 0s
+836/836 [==============================] - 0s 344us/step
+[0.566618724302812, 0.854066985645933]
+Test accuracy: 85.4067%
+Model prediction: 94 Target: 94
+Model prediction: 56 Target: 56
+Model prediction: 87 Target: 87
+Model prediction: 7 Target: 7
+Model prediction: 7 Target: 7
+Model prediction: 62 Target: 62
+Model prediction: 53 Target: 53
+Model prediction: 118 Target: 118
+Model prediction: 8 Target: 8
+Model prediction: 80 Target: 80
+Model prediction: 11 Target: 11
+Model prediction: 19 Target: 70
+Model prediction: 14 Target: 14
+Model prediction: 52 Target: 52
+Model prediction: 98 Target: 98
+Model prediction: 8 Target: 8
+Model prediction: 67 Target: 55
+Model prediction: 100 Target: 81
+Model prediction: 116 Target: 116
+Model prediction: 50 Target: 50
+Model prediction: 96 Target: 96
+Model prediction: 56 Target: 56
+Model prediction: 95 Target: 95
+Model prediction: 105 Target: 105
+Model prediction: 116 Target: 116
+Model prediction: 86 Target: 86
+Model prediction: 66 Target: 66
+Model prediction: 4 Target: 4
+Model prediction: 22 Target: 22
+Model prediction: 105 Target: 105
+Model prediction: 38 Target: 38
+Model prediction: 89 Target: 89
+Model prediction: 96 Target: 96
+Model prediction: 11 Target: 11
+Model prediction: 85 Target: 85
+Model prediction: 58 Target: 101
+Model prediction: 118 Target: 118
+Model prediction: 56 Target: 56
+Model prediction: 14 Target: 14
+Model prediction: 61 Target: 61
+Model prediction: 25 Target: 25
+Model prediction: 17 Target: 17
+Model prediction: 16 Target: 16
+Model prediction: 120 Target: 120
+Model prediction: 46 Target: 46
+Model prediction: 75 Target: 75
+Model prediction: 38 Target: 38
+Model prediction: 53 Target: 53
+Model prediction: 26 Target: 26
+Model prediction: 109 Target: 109
+Model prediction: 99 Target: 81
+Model prediction: 44 Target: 44
+Model prediction: 39 Target: 39
+Model prediction: 84 Target: 84
+Model prediction: 5 Target: 5
+Model prediction: 18 Target: 18
+Model prediction: 9 Target: 9
+Model prediction: 7 Target: 7
+Model prediction: 119 Target: 119
+Model prediction: 45 Target: 45
+Model prediction: 99 Target: 16
+Model prediction: 6 Target: 36
+Model prediction: 10 Target: 10
+Model prediction: 23 Target: 23
+Model prediction: 77 Target: 77
+Model prediction: 16 Target: 16
+Model prediction: 104 Target: 104
+Model prediction: 78 Target: 78
+Model prediction: 63 Target: 63
+Model prediction: 89 Target: 89
+Model prediction: 131 Target: 131
+Model prediction: 0 Target: 0
+Model prediction: 12 Target: 12
+Model prediction: 54 Target: 54
+Model prediction: 92 Target: 92
+Model prediction: 87 Target: 87
+Model prediction: 102 Target: 102
+Model prediction: 113 Target: 113
+Model prediction: 83 Target: 83
+Model prediction: 105 Target: 105
+Model prediction: 57 Target: 57
+Model prediction: 86 Target: 86
+Model prediction: 80 Target: 80
+Model prediction: 102 Target: 102
+Model prediction: 94 Target: 94
+Model prediction: 31 Target: 31
+Model prediction: 89 Target: 89
+Model prediction: 30 Target: 30
+Model prediction: 71 Target: 121
+Model prediction: 55 Target: 55
+Model prediction: 66 Target: 66
+Model prediction: 76 Target: 76
+Model prediction: 33 Target: 33
+Model prediction: 1 Target: 1
+Model prediction: 117 Target: 117
+Model prediction: 94 Target: 94
+Model prediction: 43 Target: 43
+Model prediction: 50 Target: 50
+Model prediction: 73 Target: 73
+Model prediction: 10 Target: 10
+Dog test accuracy: 92.0000%
